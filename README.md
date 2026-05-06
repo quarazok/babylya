@@ -1,4 +1,4 @@
-#Team DevStars - версия от Саши
+#Team DevStars - версия от Леши и Саши
 # 🧁 бабуля Team
 
 
