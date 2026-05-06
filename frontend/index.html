@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Team DevStars</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        #team-section {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        #team-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            width: 250px;
+            transition: 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        .card h3 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+        }
+        .card p {
+            margin: 5px 0;
+            color: #555;
+        }
+        .error {
+            color: red;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1> Команда бабульки </h1>
+
+    <section id="team-section">
+        <h2>Наша команда</h2>
+        <div id="team-cards">Загрузка...</div>
+    </section>
+
+    <script>
+        const API_URL = 'http://localhost:5043/api/team';
+
+        async function loadTeam() {
+            try {
+                const response = await fetch(API_URL);
+                const members = await response.json();
+
+                const container = document.getElementById('team-cards');
+                container.innerHTML = members.map(m => `
+                    <div class="card">
+                        <h3>${m.name}</h3>
+                        <p><strong>${m.role}</strong></p>
+                        <p>${m.fact}</p>
+                    </div>
+                `).join('');
+            } catch (e) {
+                document.getElementById('team-cards').innerHTML = 
+                    '<div class="error"> API недоступен. Запусти бэкенд командой: dotnet run</div>';
+                console.error('Ошибка загрузки API:', e);
+            }
+        }
+
+        loadTeam();
+    </script>
+</body>
+</html>
